@@ -166,7 +166,7 @@ def translate(string):
     # Convert alphabetic text to braille.
     braille = ""
     n, words = extract_words(string)
-    braille_matrix = np.zeros((n,12))
+    braille_matrix = np.zeros((n+1,12))
     i_index = 0
     for word in words:
         # pdb.set_trace()
@@ -180,7 +180,7 @@ def translate(string):
         trimmed_word = trim(word)  # Remove punctuation (ex: change dog?" to dog)
         untrimmed_word = word
         index = untrimmed_word.find(trimmed_word)
-
+        #pdb.set_trace()
         # find punctuations
         shavings = untrimmed_word.replace(trimmed_word, "")
 
@@ -195,7 +195,33 @@ def translate(string):
         #i_index += 1
     # first matrix
     # second a string of braille chrs
-    return braille_matrix[:-2,:], braille[:-1]  # Remove the final space that was added.
+    # transforming the above braille matrix to get a 3*n matrix which can be directly mapped in the camera frame
+    # removing extra spaces from the end
+    temp = braille_matrix[:-2,:]
+    braille_matrix2 = []
+    braille_matrix2.append([])
+    #x[0].append([])
+    #x[0][0].append(value1)
+    for t in temp:
+        # check if its a spacebar
+        if np.all(t == 0):
+            braille_matrix2.append([[0, 0], 
+                            [0, 0],
+                            [0, 0]])
+        # check if its a numeric or a capital
+        elif np.any(t[:5] != 0):
+            braille_matrix2.append([[t[0], t[3]], 
+                                [t[1], t[4]],
+                                [t[2], t[5]]])
+            braille_matrix2.append([[t[6], t[9]], 
+                                [t[7], t[10]],
+                                [t[8], t[11]]])
+        else:
+            braille_matrix2.append([[t[6], t[9]], 
+                                [t[7], t[10]],
+                                [t[8], t[11]]])
+        
+    return braille_matrix2, braille_matrix[:-2,:], braille[:-1]  # Remove the final space that was added.
 
     # 12 0 == " "
     # 6!=0 then numeric/caps; print that in braille

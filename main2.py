@@ -19,7 +19,7 @@ def user_text():
     # second a string of braille chrs
     braille_results = alphaToBraille2.translate(input())
     print(braille_results[0])
-    print(braille_results[1])
+    #print(braille_results[1])
 
 def open_text(filename):
     file = open(filename)
@@ -27,8 +27,17 @@ def open_text(filename):
     # first matrix
     # second a string of braille chrs
     braille_results = alphaToBraille2.translate(content)
-    print(braille_results[0])
-    print(braille_results[1])
+    print("Printing each character one after the other for ease in understanding!")
+    print('The n*3*2 matrix represents n - characters which must be spaced equally irrespective of their type.\nThe type conversions are already done, the spacebars are alread taken care of.')
+    print('All 3*2 = 0s represent space, which automatically is printed(not) on the paper')
+    for arr in braille_results[0]:
+        if arr != []:
+            print(arr[0])
+            print(arr[1])
+            print(arr[2])
+            print()
+    #print(braille_results[0])
+    #print(braille_results[1])
 
 def argument_handler():
     if len(argv) == 1:
