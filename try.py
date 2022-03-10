@@ -11,7 +11,7 @@ import numpy as np
 import threading
 import sys
 sys.path.append('../Lib/ArmPi/')
-import Camera
+from Camera import Camera
 from LABConfig import *
 from ArmIK.Transform import *
 from ArmIK.ArmMoveIK import *
