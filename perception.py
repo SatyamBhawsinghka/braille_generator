@@ -60,7 +60,7 @@ def convert_pixel_to_world(box, idx = 0):
     return world_coordinates
 
 def reset_arm(AK):
-    AK.setPitchRangeMoving((0, 20, 10), -30, -30, -90, 1000)
+    AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
 
 def average_contour_corner(coord_list):
     sum_x = 0
@@ -68,7 +68,7 @@ def average_contour_corner(coord_list):
     for x,y in coord_list:
         sum_x+=x
         sum_y+=y
-    return (sum_x, sum_y)
+    return (sum_x/len(coord_list), sum_y/len(coord_list))
             
 
 if __name__ == "__main__":
@@ -89,18 +89,21 @@ if __name__ == "__main__":
         frame, box = cam.find_contours(frame)
         
         if len(box)>1:
+            print(convert_pixel_to_world(box))
             w_coord_values.append(convert_pixel_to_world(box))
             flag_counter+=1
+            time.sleep(0.5)
             if(flag_counter == 100):
                 flag = False
     world_coordinates = average_contour_corner(w_coord_values)
+    print(world_coordinates)
     AK.setPitchRangeMoving((world_coordinates[0], world_coordinates[1], 10), -30, -30, -90, 1000)
     time.sleep(1)
-    # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-    # cv2.imshow('Input', frame)
-    # c = cv2.waitKey(1)
-    # flag = False
-    # if c & 0xFF == 27:
-    #     break
+    frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    cv2.imshow('Input', frame)
+    c = cv2.waitKey(1)
+    flag = False
+    if c & 0xFF == 27:
+       break
 
     cv2.destroyAllWindows()
