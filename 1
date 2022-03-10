@@ -19,7 +19,7 @@ import HiwonderSDK.Board as Board
 from CameraCalibration.CalibrationConfig import *
 
 AK = ArmIK()
-
+Board.setBusServoPulse(1, 600, 300)
 
 AK.setPitchRangeMoving((0, 10, 10),-30, -30, -90, 1000)
 time.sleep(1.5)
