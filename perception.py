@@ -21,7 +21,7 @@ class perception():
     def thresh(img):
         # apply binary thresholding
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        ret, thresh = cv2.threshold(img_gray, 180, 255, cv2.THRESH_BINARY)
+        ret, thresh = cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY)
         return thresh
 
     @staticmethod
@@ -54,32 +54,53 @@ class perception():
     def __cleanup(self):
         self.cap.release()
 
+
+def convert_pixel_to_world(box, idx = 0):
+    world_coordinates = convertCoordinate(box[0][0], box[0][1], frame.shape[:2])
+    return world_coordinates
+
+def reset_arm(AK):
+    AK.setPitchRangeMoving((0, 20, 10), -30, -30, -90, 1000)
+
+def average_contour_corner(coord_list):
+    sum_x = 0
+    sum_y = 0
+    for x,y in coord_list:
+        sum_x+=x
+        sum_y+=y
+    return (sum_x, sum_y)
+            
+
 if __name__ == "__main__":
     AK = ArmIK()
-    AK.setPitchRangeMoving((-0, 20, 10), -30, -30, -90, 1000)
+    
     #time.sleep(1)
     #Board.setBusServoPulse(1, 200, 300)
     #time.sleep(2)
     #Board.setBusServoPulse(1, 600, 300)
     #time.sleep(1)
+
     cam = perception()
     flag = True
+    w_coord_values = []
+    flag_counter = 0
     while flag:
         ret, frame = cam.read()
-        
         frame, box = cam.find_contours(frame)
+        
         if len(box)>1:
-            world_coordinates = convertCoordinate(box[0][0], box[1][1], frame.shape[:2])
-            print(world_coordinates)
-            #print(box)
-            
-            AK.setPitchRangeMoving((world_coordinates[0], world_coordinates[1], 10), -30, -30, -90, 1000)
-            time.sleep(1)
-            frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-            cv2.imshow('Input', frame)
-            c = cv2.waitKey(1)
-            flag = False
-            if c & 0xFF == 27:
-                break
+            w_coord_values.append(convert_pixel_to_world(box))
+            flag_counter+=1
+            if(flag_counter == 100):
+                flag = False
+    world_coordinates = average_contour_corner(w_coord_values)
+    AK.setPitchRangeMoving((world_coordinates[0], world_coordinates[1], 10), -30, -30, -90, 1000)
+    time.sleep(1)
+    # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    # cv2.imshow('Input', frame)
+    # c = cv2.waitKey(1)
+    # flag = False
+    # if c & 0xFF == 27:
+    #     break
 
     cv2.destroyAllWindows()
