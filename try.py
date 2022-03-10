@@ -10,7 +10,7 @@ import math
 import numpy as np
 import threading
 import sys
-sys.path.append('../Lib/ArmPi/')
+sys.path.append('./Lib/ArmPi/')
 from Camera import Camera
 from LABConfig import *
 from ArmIK.Transform import *
