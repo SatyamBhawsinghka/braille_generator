@@ -10,7 +10,7 @@ import math
 import numpy as np
 import threading
 import sys
-sys.path.append('./Lib/ArmPi/')
+sys.path.append('../Lib/ArmPi/')
 import Camera
 from LABConfig import *
 from ArmIK.Transform import *
@@ -19,6 +19,6 @@ import HiwonderSDK.Board as Board
 from CameraCalibration.CalibrationConfig import *
 
 AK = ArmIK()
-Board.setBusServoPulse(1, 200, 300)
 
-AK.setPitchRangeMoving((-4, 18, 10), -30, -30, -90, 1500)
+AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1500)
+time.sleep(1.5)
