@@ -19,8 +19,16 @@ import HiwonderSDK.Board as Board
 from CameraCalibration.CalibrationConfig import *
 
 AK = ArmIK()
-AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1500)
+AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
 time.sleep(1.5)
 
-AK.setPitchRangeMoving((0, 10, 10), -90, -30, -90, 1500)
-time.sleep(1.5)
+AK.setPitchRangeMoving((0, 20, 2), -110, -30, -120, 1000)
+time.sleep(1)
+time.sleep(5)
+
+AK.setPitchRangeMoving((0, 20, 0), -110, -30, -120, 500)
+time.sleep(0.5)
+time.sleep(10)
+
+AK.setPitchRangeMoving((0, 20, 10), -110, -30, -120, 100)
+time.sleep(0.1)
