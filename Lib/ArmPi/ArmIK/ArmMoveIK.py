@@ -15,7 +15,7 @@ from HiwonderSDK.Board import setBusServoPulse, getBusServoPulse
 ik = IK('arm')
 #Set the link length
 l1 = ik.l1 + 0.75
-l4 = ik.l4 + 1.2
+l4 = ik.l4 + 1.1
 ik.setLinkLength(L1=l1, L4=l4)
 
 class ArmIK:
