@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # encoding:utf-8
 import sys
-sys.path.append('..')
+sys.path.append('./Lib/ArmPi/')
 import time
 import numpy as np
 from math import sqrt
