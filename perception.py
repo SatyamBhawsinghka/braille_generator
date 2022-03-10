@@ -53,6 +53,8 @@ class perception():
         self.cap.release()
 
 if __name__ == "__main__":
+    AK = ArmIK()
+    Board.setBusServoPulse(1, 200, 300)
 
     cam = perception()
     while True:
@@ -63,6 +65,9 @@ if __name__ == "__main__":
             world_coordinates = convertCoordinate(box[0][0], box[1][1], frame.shape[:2])
             print(world_coordinates)
             #print(box)
+            
+            AK.setPitchRangeMoving((box[0][0], box[0][1], 10), -30, -30, -90, 1000)
+            time.sleep(1)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
             cv2.imshow('Input', frame)
             c = cv2.waitKey(1)
