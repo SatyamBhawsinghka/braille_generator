@@ -56,8 +56,8 @@ class perception():
 
 if __name__ == "__main__":
     AK = ArmIK()
-    AK.setPitchRangeMoving((-0, 20, 10), -30, -30, -90, 1000)
-    #time.sleep(1)
+    AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
+    time.sleep(1)
     #Board.setBusServoPulse(1, 200, 300)
     #time.sleep(2)
     #Board.setBusServoPulse(1, 600, 300)
