@@ -5,7 +5,8 @@ import time
 import sys
 sys.path.append('./Lib/ArmPi/')
 from ArmIK.Transform import convertCoordinate
-from ArmIK.ArmMoveIK import ArmIKK
+from ArmIK.ArmMoveIK import ArmIK
+import HiwonderSDK.Board as Board
 class perception():
     def __init__(self):
         self.cap = cv2.VideoCapture(0)
@@ -28,6 +29,7 @@ class perception():
         #Grayscale image
         #Do you wann blur and close?
         thresh_img = cam.thresh(img)
+        #ls
         #detect the contours on the binary image using cv2.CHAIN_APPROX_NONE
         contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[-2:]
         image_copy = img.copy()
@@ -54,10 +56,14 @@ class perception():
 
 if __name__ == "__main__":
     AK = ArmIK()
-    Board.setBusServoPulse(1, 200, 300)
 
+    Board.setBusServoPulse(1, 600, 300)
+    time.sleep(2)
+    AK.setPitchRangeMoving((-1, 10, 2), -30, -30, -90, 1000)
+    time.sleep(1)
     cam = perception()
-    while True:
+    flag = True
+    while flag:
         ret, frame = cam.read()
         
         frame, box = cam.find_contours(frame)
@@ -66,11 +72,12 @@ if __name__ == "__main__":
             print(world_coordinates)
             #print(box)
             
-            AK.setPitchRangeMoving((box[0][0], box[0][1], 10), -30, -30, -90, 1000)
+            AK.setPitchRangeMoving((world_coordinates[0], world_coordinates[1], 0), -30, -30, -90, 1000)
             time.sleep(1)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
             cv2.imshow('Input', frame)
             c = cv2.waitKey(1)
+            flag = False
             if c & 0xFF == 27:
                 break
 
