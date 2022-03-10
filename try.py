@@ -21,14 +21,18 @@ from CameraCalibration.CalibrationConfig import *
 AK = ArmIK()
 AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
 time.sleep(1.5)
-
-AK.setPitchRangeMoving((0, 20, 0), -110, -30, -120, 1000)
+time.sleep(5)
+AK.setPitchRangeMoving((0, 20, 10), -110, -30, -120, 1000)
 time.sleep(1)
-
-
-#AK.setPitchRangeMoving((0, 20, 0), -110, -30, -120, 100)
-#time.sleep(0.1)
-
-
-AK.setPitchRangeMoving((0, 20, 10), -110, -30, -120, 100)
-time.sleep(0.1)
+AK.setPitchRangeMoving((0, 20, 1), -110, -30, -120, 100)
+time.sleep(0.2)
+AK.setPitchRangeMoving((0.5, 20, 10), -110, -30, -120, 1000)
+time.sleep(1)
+AK.setPitchRangeMoving((0.5, 20, 1), -110, -30, -120, 100)
+time.sleep(0.2)
+AK.setPitchRangeMoving((1, 20, 10), -110, -30, -120, 1000)
+time.sleep(1)
+AK.setPitchRangeMoving((1, 20, 1), -110, -30, -120, 100)
+time.sleep(0.2)
+AK.setPitchRangeMoving((0, 10, 10), -30, -30, -120, 1000)
+time.sleep(1)
