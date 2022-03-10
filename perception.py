@@ -2,6 +2,10 @@ import cv2
 import numpy as np
 import atexit
 import time
+import sys
+sys.path.append('./Lib/ArmPi/')
+from ArmIK.Transform import convertCoordinate
+#from ArmIK.ArmMoveIK import ArmIKK
 class perception():
     def __init__(self):
         self.cap = cv2.VideoCapture(0)
@@ -37,7 +41,7 @@ class perception():
             # draw contours on the original image
             cv2.drawContours(image_copy, [box], -1, (0,255,0), 2)
             # cv2.rectangle(image_copy,(int(x),int(y)),(int(x+w),int(y+h)),(0,255,0),2)
-        return image_copy
+        return image_copy, box
                
 
     def read(self):
@@ -53,7 +57,9 @@ if __name__ == "__main__":
     while True:
         ret, frame = cam.read()
         
-        frame = cam.find_contours(frame)
+        frame, box = cam.find_contours(frame)
+        world_coordinates = convertCoordinate(box[0], box[1], frame.shape[:2])
+        print(world_coordinates)
 
         frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
         cv2.imshow('Input', frame)
