@@ -73,7 +73,7 @@ def average_contour_corner(coord_list):
 
 if __name__ == "__main__":
     AK = ArmIK()
-    
+    reset_arm(AK)
     #time.sleep(1)
     #Board.setBusServoPulse(1, 200, 300)
     #time.sleep(2)
