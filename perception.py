@@ -84,6 +84,7 @@ if __name__ == "__main__":
     flag = True
     w_coord_values = []
     flag_counter = 0
+    time.sleep(2)
     while flag:
         ret, frame = cam.read()
         frame, box = cam.find_contours(frame)
@@ -93,17 +94,17 @@ if __name__ == "__main__":
             w_coord_values.append(convert_pixel_to_world(box))
             flag_counter+=1
             time.sleep(0.5)
+            frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+            cv2.imshow('Input', frame)
+            c = cv2.waitKey(1)
+            flag = False
+            if c & 0xFF == 27:
+                break
             if(flag_counter == 100):
                 flag = False
     world_coordinates = average_contour_corner(w_coord_values)
     print(world_coordinates)
     AK.setPitchRangeMoving((world_coordinates[0], world_coordinates[1], 10), -30, -30, -90, 1000)
     time.sleep(1)
-    frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-    cv2.imshow('Input', frame)
-    c = cv2.waitKey(1)
-    flag = False
-    if c & 0xFF == 27:
-       break
-
+    
     cv2.destroyAllWindows()
