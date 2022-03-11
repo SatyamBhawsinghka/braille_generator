@@ -59,7 +59,7 @@ class Motion(object):
     def get_xy(self):
         points = []
         mx = np.array([1, 0, 1])
-        my = np.array([0, 1, 1])
+        my = np.array([0, -1, 1])
 
         p1 = np.array([self.X, self.Y, 1])
 
