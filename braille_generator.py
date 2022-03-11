@@ -82,7 +82,7 @@ class Motion(object):
 
 if __name__ == '__main__':
     motion = Motion()
-    motion.set_starts(0, -5, 15)
+    motion.set_starts(0, -4, 15)
     points = motion.get_xy()
 
     for i in points:
