@@ -30,7 +30,7 @@ def extract_words(string):
             result.append(item)
 
     n += len(words)
-    print(n, result)
+    # print(n, result)
     return n+1, result
 
 def is_braille(char):

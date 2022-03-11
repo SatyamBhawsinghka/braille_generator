@@ -1,5 +1,8 @@
+import numpy as np
+import braille_lib.alphaToBraille2 as alphaToBraille
 
-import braille_lib.alphaToBraille as alphaToBraille
-
-string = "yo ssup"
-print(alphaToBraille.translate(string))
+string = "ssups"
+a = alphaToBraille.translate(string)
+n_a = np.array(a[0][1:])
+print(n_a.shape)
+print(a[2])
