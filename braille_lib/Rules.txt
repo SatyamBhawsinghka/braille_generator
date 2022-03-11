@@ -1,0 +1,16 @@
+1. A character is depicted by 12 columns of 0s and 1s
+2. If all the 12 columns are 0s, it is considered as a space.
+3. If first 6 columns are 0s, it can be either an punctuation mark or a small case alphabet. While printing, the first 6 0s are ignored and the 6 columns are used to get the roman character.
+4. If the first 6 columns are not all 0s, its an number or an alphabet. In that case the two characters are printed side by side. The first to represent the type of the character and the other the roman character itself.
+5. Below values are used to represent the type of the character.
+CAPITAL = chr(10272)  # ⠠
+CAPITAL_DICT = '001000'
+NUMBER = chr(10300)  # ⠼
+NUMBER_DICT = '001111'
+6. The 1*12 row can be converted either to a 3*4 matrix or a 3*2 matrix based on the above rules or the below examples.
+
+Ex: 
+If you print 4 the output will consists of two characters, ⠼⠙ ; In my case, the first 6 columns of the 1*12 array are not all 0s
+The above is true from Capitals as well.
+If you print d the output will have only one character, ⠙ ; In my case, the first 6 columns are all 0s and can be deleted while printing. It is just used to differentiate the type of the character according to Braille grade 2 translation.   
+For space in between words, you just leave the 3*2 matric empty. In my case all 1*12 numbers are 0s
