@@ -41,11 +41,11 @@ class Motion(object):
         time.sleep(1)
 
     def move(self, x, y):
-        self.AK.setPitchRangeMoving((x, y, 10), -110, -30, -120, 1000)
+        self.AK.setPitchRangeMoving((x, y, 8), -110, -30, -120, 1000)
         time.sleep(2)
-        self.AK.setPitchRangeMoving((x, y, 0), -110, -30, -120, 100)
+        self.AK.setPitchRangeMoving((x, y, 1), -110, -30, -120, 100)
         time.sleep(0.2)
-        self.AK.setPitchRangeMoving((0, 5, 10), -30, -30, -90, 1000)
+        self.AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
         time.sleep(2)
 
     def get_XY(self):
@@ -82,7 +82,7 @@ class Motion(object):
 
 if __name__ == '__main__':
     motion = Motion()
-    motion.set_starts(0, -5, 15)
+    motion.set_starts(0, -3, 13)
     points = motion.get_xy()
 
     for i in points:
