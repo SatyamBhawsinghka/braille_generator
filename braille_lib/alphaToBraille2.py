@@ -199,7 +199,6 @@ def translate(string):
     # removing extra spaces from the end
     temp = braille_matrix[:-2,:]
     braille_matrix2 = []
-    braille_matrix2.append([])
     #x[0].append([])
     #x[0][0].append(value1)
     for t in temp:
