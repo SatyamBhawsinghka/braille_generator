@@ -37,7 +37,7 @@ class Motion(object):
         self.Y = mat_mul[1]
 
     def init_move(self):
-        self.AK.setPitchRangeMoving((0, 5, 10), -30, -30, -90, 1000)
+        self.AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
         time.sleep(1)
 
     def move(self, x, y):
