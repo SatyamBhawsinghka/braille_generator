@@ -25,11 +25,10 @@ class Perception():
         ret, thresh = cv2.threshold(img_gray, 120, 255, cv2.THRESH_BINARY)
         return thresh
 
-    @staticmethod
-    def find_contours(img):
+    def find_contours(self, img):
         #Grayscale image
         #Do you wann blur and close?
-        thresh_img = cam.thresh(img)
+        thresh_img = self.thresh(img)
         #ls
         #detect the contours on the binary image using cv2.CHAIN_APPROX_NONE
         contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[-2:]
@@ -46,7 +45,7 @@ class Perception():
             cv2.drawContours(image_copy, [box], -1, (0,255,0), 2)
             # cv2.rectangle(image_copy,(int(x),int(y)),(int(x+w),int(y+h)),(0,255,0),2)
             return image_copy, box, angle
-        return None,np.array([None], None)
+        return None, np.array([None]), None
                
 
     def read(self):
@@ -57,8 +56,8 @@ class Perception():
         self.cap.release()
 
 
-def convert_pixel_to_world(box, idx = 0, offset = 5):
-    world_coordinates = convertCoordinate(box[0][0], box[0][1]-offset, frame.shape[:2])
+def convert_pixel_to_world(box, shape, idx = 0, offset = 5):
+    world_coordinates = convertCoordinate(box[0][0], box[0][1]-offset, shape)
     return world_coordinates
 
 def reset_arm(AK):
@@ -83,11 +82,11 @@ if __name__ == "__main__":
     time.sleep(2)
     while flag:
         ret, frame = cam.read()
-        frame, box = cam.find_contours(frame)
+        frame, box, angle = cam.find_contours(frame)
         
         if len(box)>1:
-            print(convert_pixel_to_world(box))
-            w_coord_values.append(convert_pixel_to_world(box))
+            print(convert_pixel_to_world(box, frame.shape[:2]))
+            w_coord_values.append([*convert_pixel_to_world(box, frame.shape[:2]), angle])
             flag_counter+=1
             #time.sleep(0.5)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
