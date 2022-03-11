@@ -65,8 +65,8 @@ class Motion(object):
 
         for i in range(3):
             points.append([p1[0], p1[1]])
-            t = np.array([[np.cos(self.starting_angle), -np.sin(self.starting_angle), self.p1[0]],
-                          [np.sin(self.starting_angle), np.cos(self.starting_angle), self.p1[1]],
+            t = np.array([[np.cos(self.starting_angle), -np.sin(self.starting_angle), p1[0]],
+                          [np.sin(self.starting_angle), np.cos(self.starting_angle), p1[1]],
                           [0, 0, 1]])
             p2 = t @ mx
             points.append([p2[0], p2[1]])
@@ -87,4 +87,4 @@ if __name__ == '__main__':
 
     for i in points:
         motion.move(i[0], i[1])
-        
+
