@@ -86,5 +86,6 @@ if __name__ == '__main__':
     points = motion.get_xy()
 
     for i in points:
+        print(i)
         motion.move(i[0], i[1])
 
