@@ -7,6 +7,7 @@ sys.path.append('./Lib/ArmPi/')
 from ArmIK.Transform import convertCoordinate
 from ArmIK.ArmMoveIK import ArmIK
 import HiwonderSDK.Board as Board
+
 class perception():
     def __init__(self):
         self.cap = cv2.VideoCapture(0)
@@ -37,14 +38,15 @@ class perception():
         if(len(contours) != 0):
             c = max(contours, key = cv2.contourArea)
             rect = cv2.minAreaRect(c)
+            angle = rect[2]
             box = cv2.boxPoints(rect)
             box = np.int0(box)
         
             # draw contours on the original image
             cv2.drawContours(image_copy, [box], -1, (0,255,0), 2)
             # cv2.rectangle(image_copy,(int(x),int(y)),(int(x+w),int(y+h)),(0,255,0),2)
-            return image_copy, box
-        return None,np.array([None])
+            return image_copy, box, angle
+        return None,np.array([None], None)
                
 
     def read(self):
@@ -55,8 +57,8 @@ class perception():
         self.cap.release()
 
 
-def convert_pixel_to_world(box, idx = 0):
-    world_coordinates = convertCoordinate(box[0][0], box[0][1], frame.shape[:2])
+def convert_pixel_to_world(box, idx = 0, offset = 5):
+    world_coordinates = convertCoordinate(box[0][0], box[0][1]-offset, frame.shape[:2])
     return world_coordinates
 
 def reset_arm(AK):
@@ -65,21 +67,17 @@ def reset_arm(AK):
 def average_contour_corner(coord_list):
     sum_x = 0
     sum_y = 0
-    for x,y in coord_list:
+    sum_angle = 0
+    for x, y, angle in coord_list:
         sum_x+=x
         sum_y+=y
-    return (sum_x/len(coord_list), sum_y/len(coord_list))
+        sum_angle+=angle
+    return (sum_x/len(coord_list), sum_y/len(coord_list), sum_angle/len(coord_list))
             
 
 if __name__ == "__main__":
     AK = ArmIK()
     reset_arm(AK)
-    #time.sleep(1)
-    #Board.setBusServoPulse(1, 200, 300)
-    #time.sleep(2)
-    #Board.setBusServoPulse(1, 600, 300)
-    #time.sleep(1)
-
     cam = perception()
     flag = True
     w_coord_values = []
@@ -104,7 +102,6 @@ if __name__ == "__main__":
                 flag = False
     world_coordinates = average_contour_corner(w_coord_values)
     print(world_coordinates)
-    AK.setPitchRangeMoving((world_coordinates[0], world_coordinates[1], 10), -30, -30, -90, 1000)
-    time.sleep(1)
+  
     
     cv2.destroyAllWindows()
