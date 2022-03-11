@@ -22,7 +22,7 @@ class perception():
     def thresh(img):
         # apply binary thresholding
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        ret, thresh = cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY)
+        ret, thresh = cv2.threshold(img_gray, 120, 255, cv2.THRESH_BINARY)
         return thresh
 
     @staticmethod
@@ -91,17 +91,15 @@ if __name__ == "__main__":
             print(convert_pixel_to_world(box))
             w_coord_values.append(convert_pixel_to_world(box))
             flag_counter+=1
-            time.sleep(0.5)
+            #time.sleep(0.5)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
             cv2.imshow('Input', frame)
             c = cv2.waitKey(1)
-            flag = False
             if c & 0xFF == 27:
                 break
-            if(flag_counter == 100):
+            if(flag_counter == 60):
                 flag = False
-    world_coordinates = average_contour_corner(w_coord_values)
+    world_coordinates = average_contour_corner(w_coord_values[10:])
     print(world_coordinates)
-  
-    
+
     cv2.destroyAllWindows()
