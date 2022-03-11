@@ -15,25 +15,26 @@ from ArmIK.Transform import *
 from ArmIK.ArmMoveIK import *
 import HiwonderSDK.Board as Board
 
-class Braille_Generator(object):
+class Motion(object):
     def __init__(self):
         self.X = None
         self.Y = None
-
-
         self.AK = ArmIK()
-        self.starting_angle = None
-        self.starting_X = None
-        self.starting_Y = None
+        self.margin = np.array([3, 0, 1])
+        self.init_move()
+
+    def set_starts(self, starting_angle, starting_X, starting_Y):
+        self.starting_angle = starting_angle
+        self.starting_X = starting_X
+        self.starting_Y = starting_Y
         #call perception code here, get starting_X, starting_Y, starting_angle
         starting_T = np.array([[np.cos(self.starting_angle), -np.sin(self.starting_angle), self.starting_X],
-                                [np.sin(self.starting_angle), np.cos(self.starting_angle), self.starting_Y],
-                                [0, 0, 1]])
-        self.margin = np.array([3, 0, 1])
+                               [np.sin(self.starting_angle), np.cos(self.starting_angle), self.starting_Y],
+                               [0, 0, 1]])
+
         mat_mul = starting_T @ self.margin
         self.X = mat_mul[0]
         self.Y = mat_mul[1]
-
 
     def init_move(self):
         self.AK.setPitchRangeMoving((0, 5, 10), -30, -30, -90, 1000)
@@ -76,11 +77,14 @@ class Braille_Generator(object):
 
 
 
-    def main(self):
-        self.init_move()
 
 
 
 if __name__ == '__main__':
-    BG = Braille_Generator()
-    BG.main()
+    motion = Motion()
+    motion.set_starts(0, -5, 15)
+    points = motion.get_xy()
+
+    for i in points:
+        motion.move(i[0], i[1])
+        
