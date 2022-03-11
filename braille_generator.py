@@ -42,11 +42,11 @@ class Motion(object):
 
     def move(self, x, y):
         self.AK.setPitchRangeMoving((x, y, 10), -110, -30, -120, 1000)
-        time.sleep(1)
+        time.sleep(2)
         self.AK.setPitchRangeMoving((x, y, 0), -110, -30, -120, 100)
-        time.sleep(0.1)
+        time.sleep(0.2)
         self.AK.setPitchRangeMoving((0, 5, 10), -30, -30, -90, 1000)
-        time.sleep(1)
+        time.sleep(2)
 
     def get_XY(self):
         T = np.array([[np.cos(self.starting_angle), -np.sin(self.starting_angle), self.X],
