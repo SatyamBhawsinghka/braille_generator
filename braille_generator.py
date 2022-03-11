@@ -45,7 +45,7 @@ class Motion(object):
         time.sleep(2)
         self.AK.setPitchRangeMoving((x, y, 0), -110, -30, -120, 100)
         time.sleep(0.2)
-        self.AK.setPitchRangeMoving((0, 5, 10), -30, -30, -90, 1000)
+        self.AK.setPitchRangeMoving((0, 8, 10), -30, -30, -90, 1000)
         time.sleep(2)
 
     def get_XY(self):
