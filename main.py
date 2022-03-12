@@ -20,9 +20,8 @@ if __name__ == "__main__":
         frame, box, angle = cam.find_contours(frame)
         
         if len(box)>1:
-            print(frame.shape)
-            print(convert_pixel_to_world(box, (640, 480)))
-            w_coord_values.append([*convert_pixel_to_world(box, (640,480)), angle])
+            #print(convert_pixel_to_world(box, (640, 480)))
+            w_coord_values.append(convert_pixel_to_world(box, (640,480)))
             flag_counter+=1
             #time.sleep(0.5)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
@@ -33,9 +32,10 @@ if __name__ == "__main__":
             if(flag_counter == 60):
                 flag = False
     world_coordinates = average_contour_corner(w_coord_values[10:])
-    world_coordinates = sort_rect(world_coordinates)
+    #print(world_coordinates)
+    world_coordinates = sort_rect(np.array(world_coordinates))
     print(world_coordinates)
-    motion.set_starts(0, world_coordinates[0], world_coordinates[1])
+    motion.set_starts(0, world_coordinates[3][0], world_coordinates[3][1])
     points = motion.get_xy()
 
 

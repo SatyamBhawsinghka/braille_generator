@@ -7,6 +7,7 @@ sys.path.append('./Lib/ArmPi/')
 from ArmIK.Transform import convertCoordinate
 from ArmIK.ArmMoveIK import ArmIK
 import HiwonderSDK.Board as Board
+from scipy.spatial import distance as dist
 
 class Perception():
     def __init__(self):
@@ -60,7 +61,7 @@ def convert_pixel_to_world(box, shape, idx = 0, offset = 5):
     world_coordinates = []
     for idx in box:
         world_coordinates.append(list(convertCoordinate(idx[0], idx[1], shape)))
-    for j,i in world_coordinates:
+    for j,i in enumerate(world_coordinates):
         world_coordinates[j][1] = world_coordinates[j][1] - 5 
     return world_coordinates
 
@@ -91,14 +92,18 @@ def sort_rect(pts):
 	return np.array([tl, tr, br, bl], dtype="float32")
 
 def average_contour_corner(coord_list):
-    sum_x = 0
-    sum_y = 0
-    sum_angle = 0
-    for x, y, angle in coord_list:
-        sum_x+=x
-        sum_y+=y
-        sum_angle+=angle
-    return (sum_x/len(coord_list), sum_y/len(coord_list), sum_angle/len(coord_list))
+    pts = []
+    for i in range(4):
+        sum_x = 0
+        sum_y = 0
+        sum_angle = 0
+        for pt in coord_list:
+            x = pt[i][0]
+            y = pt[i][1]
+            sum_x+=x
+            sum_y+=y
+        pts.append([sum_x/len(coord_list), sum_y/len(coord_list)])
+    return pts
             
 
 if __name__ == "__main__":
