@@ -1,7 +1,7 @@
 from cgi import test
 import sys
 sys.path.append('./')
-from braille_generator import Motion
+from motion import Motion
 from perception import Perception, convert_pixel_to_world, average_contour_corner
 import numpy as np
 import braille_lib.alphaToBraille2 as alphaToBraille

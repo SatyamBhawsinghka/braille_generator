@@ -16,11 +16,13 @@ from ArmIK.ArmMoveIK import *
 import HiwonderSDK.Board as Board
 
 class Motion(object):
-    def __init__(self):
+    def __init__(self, margin=np.array([3, 0, 1]), dx=np.array([1, 0, 1]), dy=np.array([0, -1, 1])):
         self.X = None
         self.Y = None
         self.AK = ArmIK()
-        self.margin = np.array([3, 0, 1])
+        self.margin = margin
+        self.dx = dx
+        self.dy = dy
         self.init_move()
 
     def set_starts(self, starting_angle, starting_X, starting_Y):
@@ -58,9 +60,6 @@ class Motion(object):
 
     def get_xy(self):
         points = []
-        mx = np.array([1, 0, 1])
-        my = np.array([0, -1, 1])
-
         p1 = np.array([self.X, self.Y, 1])
 
         for i in range(3):
@@ -68,15 +67,11 @@ class Motion(object):
             t = np.array([[np.cos(self.starting_angle), -np.sin(self.starting_angle), p1[0]],
                           [np.sin(self.starting_angle), np.cos(self.starting_angle), p1[1]],
                           [0, 0, 1]])
-            p2 = t @ mx
+            p2 = t @ self.dx
             points.append([p2[0], p2[1]])
-            p1 = t @ my
+            p1 = t @ self.dy
 
         return points
-
-
-
-
 
 
 
