@@ -7,7 +7,6 @@ sys.path.append('./Lib/ArmPi/')
 from ArmIK.Transform import convertCoordinate
 from ArmIK.ArmMoveIK import ArmIK
 import HiwonderSDK.Board as Board
-from scipy.spatial import distance as dist
 
 class Perception():
     def __init__(self):
@@ -57,53 +56,22 @@ class Perception():
         self.cap.release()
 
 
-def convert_pixel_to_world(box, shape, idx = 0, offset = 5):
-    world_coordinates = []
-    for idx in box:
-        world_coordinates.append(list(convertCoordinate(idx[0], idx[1], shape)))
-    for j,i in enumerate(world_coordinates):
-        world_coordinates[j][1] = world_coordinates[j][1] - 5 
-    return world_coordinates
+def convert_pixel_to_world(box, shape, idx = 2, offset = 5):
+    world_coordinates = convertCoordinate(box[idx][0], box[idx][1], shape)
+    return (world_coordinates[0], world_coordinates[1]-offset)
 
 def reset_arm(AK):
     AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
 
-def sort_rect(pts):
-	# sort the points based on their x-coordinates
-	xSorted = pts[np.argsort(pts[:, 0]), :]
-	# grab the left-most and right-most points from the sorted
-	# x-roodinate points
-	leftMost = xSorted[:2, :]
-	rightMost = xSorted[2:, :]
-	# now, sort the left-most coordinates according to their
-	# y-coordinates so we can grab the top-left and bottom-left
-	# points, respectively
-	leftMost = leftMost[np.argsort(leftMost[:, 1]), :]
-	(tl, bl) = leftMost
-	# now that we have the top-left coordinate, use it as an
-	# anchor to calculate the Euclidean distance between the
-	# top-left and right-most points; by the Pythagorean
-	# theorem, the point with the largest distance will be
-	# our bottom-right point
-	D = dist.cdist(tl[np.newaxis], rightMost, "euclidean")[0]
-	(br, tr) = rightMost[np.argsort(D)[::-1], :]
-	# return the coordinates in top-left, top-right,
-	# bottom-right, and bottom-left order
-	return np.array([tl, tr, br, bl], dtype="float32")
-
 def average_contour_corner(coord_list):
-    pts = []
-    for i in range(4):
-        sum_x = 0
-        sum_y = 0
-        sum_angle = 0
-        for pt in coord_list:
-            x = pt[i][0]
-            y = pt[i][1]
-            sum_x+=x
-            sum_y+=y
-        pts.append([sum_x/len(coord_list), sum_y/len(coord_list)])
-    return pts
+    sum_x = 0
+    sum_y = 0
+    sum_angle = 0
+    for x, y, angle in coord_list:
+        sum_x+=x
+        sum_y+=y
+        sum_angle+=angle
+    return (sum_x/len(coord_list), sum_y/len(coord_list), sum_angle/len(coord_list))
             
 
 if __name__ == "__main__":
@@ -129,7 +97,6 @@ if __name__ == "__main__":
             if(flag_counter == 60):
                 flag = False
     world_coordinates = average_contour_corner(w_coord_values[10:])
-    world_coordinates = sort_rect(world_coordinates)
     print(world_coordinates)
 
     cv2.destroyAllWindows()
