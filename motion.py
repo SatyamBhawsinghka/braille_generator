@@ -77,6 +77,7 @@ class Motion(object):
     @log_on_error(logging.DEBUG, "Error in move")
     def move(self, x, y):
         """Moves the arm to position x, y in workspace"""
+        check = True
         c1 = self.AK.setPitchRangeMoving((x, y, 8), -110, -30, -120, 1000)
         time.sleep(2)
         if c1 is False:
