@@ -20,8 +20,9 @@ if __name__ == "__main__":
         frame, box, angle = cam.find_contours(frame)
         
         if len(box)>1:
-            print(convert_pixel_to_world(box, frame.shape))
-            w_coord_values.append([*convert_pixel_to_world(box, frame.shape), angle])
+            print(frame.shape)
+            print(convert_pixel_to_world(box, (640, 480)))
+            w_coord_values.append([*convert_pixel_to_world(box, (640,480)), angle])
             flag_counter+=1
             #time.sleep(0.5)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)

@@ -56,7 +56,7 @@ class Perception():
         self.cap.release()
 
 
-def convert_pixel_to_world(box, shape, idx = 3, offset = 5):
+def convert_pixel_to_world(box, shape, idx = 2, offset = 5):
     world_coordinates = convertCoordinate(box[idx][0], box[idx][1], shape)
     return (world_coordinates[0], world_coordinates[1]-offset)
 
