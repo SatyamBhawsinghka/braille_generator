@@ -35,23 +35,25 @@ if __name__ == "__main__":
     #print(world_coordinates)
     world_coordinates = sort_rect(np.array(world_coordinates))
     angle = get_angle_from_coordinates(world_coordinates)
-    print(angle)
 
-    motion.set_starts(angle, world_coordinates[3][0], world_coordinates[3][1])
+    motion.set_starts(angle, world_coordinates[4][0], world_coordinates[4][1])
     points = motion.get_xy()
 
-    test_string = "ab"
+    test_string = "A 1"
     test_string_braille = alphaToBraille.translate(test_string)
-    test_string_braille = np.array(test_string_braille[0]).astype('uint8')
+    test_string_braille_mat = np.array(test_string_braille[0]).astype('uint8')
+    print(test_string, test_string_braille[2])
     # test_string_braille = test_string_braille.reshape(-1)
-    for k in range(test_string_braille.shape[0]):
+    for k in range(test_string_braille_mat.shape[0]):
         # the 6 points for each characters
         points = motion.get_xy()
+        
+        current_char = test_string_braille_mat[k]
+        current_char[:,[0,1]] = current_char[:,[1,0]]
         for j,i in enumerate(points):
-            current_char = test_string_braille[k].reshape(-1)
+            current_char = current_char.reshape(-1)
             if(current_char[j]==1):
                 motion.move(i[0], i[1])
-                print(i[0], i[1])
         # get the new starting location
         motion.get_XY()
     # test_string = "s"

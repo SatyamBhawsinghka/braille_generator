@@ -166,7 +166,7 @@ def translate(string):
     # Convert alphabetic text to braille.
     braille = ""
     n, words = extract_words(string)
-    braille_matrix = np.zeros((n+1,12))
+    braille_matrix = np.zeros((2*n+1,12))
     i_index = 0
     for word in words:
         # pdb.set_trace()
