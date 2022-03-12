@@ -20,7 +20,7 @@ class Motion(object):
         self.X = None
         self.Y = None
         self.AK = ArmIK()
-        self.initial_margin = np.array([2, 2, 1])
+        self.initial_margin = np.array([2, -2, 1])
         self.margin = margin
         self.dx = dx
         self.dy = dy
