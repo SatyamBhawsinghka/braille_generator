@@ -36,8 +36,9 @@ if __name__ == "__main__":
     world_coordinates = sort_rect(np.array(world_coordinates))
     angle = get_angle_from_coordinates(world_coordinates)
     print(angle)
-    motion.set_starts(0, world_coordinates[3][0], world_coordinates[3][1])
-    # points = motion.get_xy()
+
+    motion.set_starts(angle, world_coordinates[3][0], world_coordinates[3][1])
+    points = motion.get_xy()
 
     test_string = "abc123"
     test_string_braille = alphaToBraille.translate(test_string)
