@@ -20,6 +20,7 @@ class Motion(object):
         self.X = None
         self.Y = None
         self.AK = ArmIK()
+        self.initial_margin = np.array([2, -2, 1])
         self.margin = margin
         self.dx = dx
         self.dy = dy
@@ -34,7 +35,7 @@ class Motion(object):
                                [np.sin(self.starting_angle), np.cos(self.starting_angle), self.starting_Y],
                                [0, 0, 1]])
 
-        mat_mul = starting_T @ self.margin
+        mat_mul = starting_T @ self.initial_margin
         self.X = mat_mul[0]
         self.Y = mat_mul[1]
 
