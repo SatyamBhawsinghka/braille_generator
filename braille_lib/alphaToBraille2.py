@@ -189,7 +189,7 @@ def translate(string):
         braille += " "
         
         # add a blank space after each word
-        i_index += len(word)+1
+        i_index += len(word)
         #print(i_index)
         braille_matrix[i_index, 6:] = np.array(list(mapAlphaToBraille.code_table.get(" ")))
         #i_index += 1

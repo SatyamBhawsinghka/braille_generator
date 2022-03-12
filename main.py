@@ -7,6 +7,7 @@ import numpy as np
 import braille_lib.alphaToBraille2 as alphaToBraille
 import cv2 
 import time
+import pdb
 
 if __name__ == "__main__":
     cam = Perception()
@@ -36,10 +37,10 @@ if __name__ == "__main__":
     world_coordinates = sort_rect(np.array(world_coordinates))
     angle = get_angle_from_coordinates(world_coordinates)
 
-    motion.set_starts(angle, world_coordinates[4][0], world_coordinates[4][1])
+    motion.set_starts(angle, world_coordinates[2][0], world_coordinates[2][1])
     points = motion.get_xy()
 
-    test_string = "A 1"
+    test_string = "hqy"
     test_string_braille = alphaToBraille.translate(test_string)
     test_string_braille_mat = np.array(test_string_braille[0]).astype('uint8')
     print(test_string, test_string_braille[2])
@@ -50,6 +51,8 @@ if __name__ == "__main__":
         
         current_char = test_string_braille_mat[k]
         current_char[:,[0,1]] = current_char[:,[1,0]]
+        print(current_char)
+        #pdb.set_trace([])
         for j,i in enumerate(points):
             current_char = current_char.reshape(-1)
             if(current_char[j]==1):
