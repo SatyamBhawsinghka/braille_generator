@@ -22,7 +22,7 @@ coord = [(-1,13,8),(0,13,8),(1,13,8)]
 AK = ArmIK()
 time.sleep(1.5)
 for i in coord:
-    AK.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1000)
+    AK.setPitchRangeMoving((-4.5, 24, 1), -30, -30, -90, 1000)
     time.sleep(2)
     break
     AK.setPitchRangeMoving(i, -110, -30, -120, 1500)

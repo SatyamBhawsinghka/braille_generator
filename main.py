@@ -43,6 +43,6 @@ if __name__ == "__main__":
     test_string_braille = test_string_braille.reshape(-1)
     for j,i in enumerate(points):
         if(test_string_braille[j]==1):
-            #motion.move(i[0], i[1])
+            motion.move(i[0], i[1])
             print(i[0], i[1])
     cv2.destroyAllWindows()

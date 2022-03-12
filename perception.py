@@ -22,7 +22,7 @@ class Perception():
     def thresh(img):
         # apply binary thresholding
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        ret, thresh = cv2.threshold(img_gray, 120, 255, cv2.THRESH_BINARY)
+        ret, thresh = cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY)
         return thresh
 
     def find_contours(self, img):
@@ -85,8 +85,8 @@ if __name__ == "__main__":
         frame, box, angle = cam.find_contours(frame)
         
         if len(box)>1:
-            print(convert_pixel_to_world(box, frame.shape[:2]))
-            w_coord_values.append([*convert_pixel_to_world(box, frame.shape[:2]), angle])
+            print(convert_pixel_to_world(box,(640, 480)))
+            w_coord_values.append([*convert_pixel_to_world(box, (640, 480)), angle])
             flag_counter+=1
             #time.sleep(0.5)
             frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
