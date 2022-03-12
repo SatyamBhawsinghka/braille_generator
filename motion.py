@@ -16,7 +16,7 @@ from ArmIK.ArmMoveIK import *
 import HiwonderSDK.Board as Board
 
 class Motion(object):
-    def __init__(self, margin=np.array([3, 0, 1]), dx=np.array([1, 0, 1]), dy=np.array([0, -1, 1])):
+    def __init__(self, margin=np.array([1, 0, 1]), dx=np.array([0.5, 0, 1]), dy=np.array([0, -0.5, 1])):
         self.X = None
         self.Y = None
         self.AK = ArmIK()
