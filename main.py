@@ -15,7 +15,7 @@ if __name__ == "__main__":
     flag = True
     w_coord_values = []
     flag_counter = 0
-    time.sleep(2)
+    time.sleep(10)
     while flag:
         ret, frame = cam.read()
         frame, box, angle = cam.find_contours(frame)
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     motion.set_starts(angle, world_coordinates[2][0], world_coordinates[2][1])
     points = motion.get_xy()
 
-    test_string = "hqy"
+    test_string = "A1"
     test_string_braille = alphaToBraille.translate(test_string)
     test_string_braille_mat = np.array(test_string_braille[0]).astype('uint8')
     print(test_string, test_string_braille[2])
