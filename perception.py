@@ -8,6 +8,7 @@ from ArmIK.Transform import convertCoordinate
 from ArmIK.ArmMoveIK import ArmIK
 import HiwonderSDK.Board as Board
 from scipy.spatial import distance as dist
+import math
 
 class Perception():
     def __init__(self):
@@ -104,7 +105,12 @@ def average_contour_corner(coord_list):
             sum_y+=y
         pts.append([sum_x/len(coord_list), sum_y/len(coord_list)])
     return pts
-            
+
+def get_angle_from_coordinates(coord):
+    x1, y1 = coord[0]
+    x2, y2 = coord[1]
+    return math.atan((y2-y1)/(x2-x1))
+
 
 if __name__ == "__main__":
     cam = Perception()

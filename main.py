@@ -2,7 +2,7 @@ from cgi import test
 import sys
 sys.path.append('./')
 from motion import Motion
-from perception import Perception, convert_pixel_to_world, average_contour_corner, sort_rect
+from perception import Perception, convert_pixel_to_world, average_contour_corner, sort_rect, get_angle_from_coordinates
 import numpy as np
 import braille_lib.alphaToBraille2 as alphaToBraille
 import cv2 
@@ -34,7 +34,8 @@ if __name__ == "__main__":
     world_coordinates = average_contour_corner(w_coord_values[10:])
     #print(world_coordinates)
     world_coordinates = sort_rect(np.array(world_coordinates))
-    print(world_coordinates)
+    angle = get_angle_from_coordinates(world_coordinates)
+    print(angle)
     motion.set_starts(0, world_coordinates[3][0], world_coordinates[3][1])
     points = motion.get_xy()
 
